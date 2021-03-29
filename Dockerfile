@@ -20,8 +20,21 @@ RUN apt-get update -q \
     wget \
     xpra \
     xserver-xorg-dev \
+    libglu1-mesa-dev \
+    libgl1-mesa-dev \
+    libosmesa6-dev xvfb \
+    ffmpeg curl \ 
+    patchelf \
+    libglfw3 \
+    libglfw3-dev \
+    cmake \
+    zlib1g \
+    zlib1g-dev \
+    swig \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+
 
 RUN DEBIAN_FRONTEND=noninteractive add-apt-repository --yes ppa:deadsnakes/ppa && apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install --yes python3.6-dev python3.6 python3-pip
@@ -38,12 +51,14 @@ RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sc
 ENV LANG C.UTF-8
 
 RUN mkdir -p /root/.mujoco \
-    && wget https://www.roboti.us/download/mujoco200_linux.zip -O mujoco.zip \
+    && wget https://www.roboti.us/download/mujoco200_linux.zip -O mujoco200.zip \
+    && unzip mujoco200.zip -d /root/.mujoco \
+    && mv /root/.mujoco/mujoco200_linux  /root/.mujoco/mujoco200 \
+    && wget https://www.roboti.us/download/mjpro150_linux.zip -O mujoco.zip \
     && unzip mujoco.zip -d /root/.mujoco \
-    && mv /root/.mujoco/mujoco200_linux /root/.mujoco/mujoco200 \
     && rm mujoco.zip
 COPY ./mjkey.txt /root/.mujoco/
-ENV LD_LIBRARY_PATH /root/.mujoco/mujoco200/bin:${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH /root/.mujoco/mjpro150/bin:${LD_LIBRARY_PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 
 COPY vendor/Xdummy /usr/local/bin/Xdummy
