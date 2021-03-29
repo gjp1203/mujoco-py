@@ -9,3 +9,4 @@ sphinx_rtd_theme
 numpydoc
 tensorflow==1.4
 gym[all]
+stable-baselines

@@ -1,7 +1,21 @@
 ## Build
 
+First clone this repo and copy mjkey.txt into 
+
+```
+~/mujoco-py
+```
+
+Then build the container:
+
 ```
 docker build -t mujoco-container -f ${PWD}/Dockerfile  ${PWD}/
+```
+
+To run the container:
+
+```
+docker run -v ${PWD}/demo:/mujoco_py/demo -it mujoco-container /bin/bash
 ```
 
 **Status:** Maintenance (expect bug fixes and minor updates)
