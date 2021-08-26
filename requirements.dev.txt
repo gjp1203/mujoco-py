@@ -10,3 +10,5 @@ numpydoc
 tensorflow==1.4
 gym[all]
 stable-baselines
+pandas
+scikit-learn
